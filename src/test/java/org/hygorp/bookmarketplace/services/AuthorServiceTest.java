@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.util.Set;
 import java.util.UUID;
 
 @SpringBootTest
@@ -84,8 +85,28 @@ public class AuthorServiceTest {
     }
 
     @Test
-    @DisplayName("should save author")
+    @DisplayName("should return authors by name")
     @Order(4)
+    void shouldReturnAuthorsByName() {
+        Assertions.assertDoesNotThrow(() -> {
+            Set<AuthorEntity> authors = Assertions.assertDoesNotThrow(() -> authorService.findByName("George Orwell"));
+
+            Assertions.assertNotNull(authors);
+            Assertions.assertEquals(1, authors.size());
+        });
+
+        Assertions.assertDoesNotThrow(() -> {
+            Set<AuthorEntity> authors = Assertions.assertDoesNotThrow(() -> authorService.findByName("J.K Rowling"));
+
+            Assertions.assertNotNull(authors);
+            Assertions.assertEquals(1, authors.size());
+        });
+
+    }
+
+    @Test
+    @DisplayName("should save author")
+    @Order(5)
     void shouldSaveAuthor() {
         AuthorEntity author = Assertions.assertDoesNotThrow(() -> authorService.save(new AuthorEntity(
                 "Test Author 03",
@@ -99,7 +120,7 @@ public class AuthorServiceTest {
 
     @Test
     @DisplayName("should update author")
-    @Order(5)
+    @Order(6)
     void shouldUpdateAuthor() {
         AuthorEntity author = Assertions.assertDoesNotThrow(() -> authorService.findById(myAuthorId02));
         Assertions.assertNotNull(author);
@@ -114,14 +135,14 @@ public class AuthorServiceTest {
 
     @Test
     @DisplayName("shouldn't update author and throws exception")
-    @Order(6)
+    @Order(7)
     void shouldNotUpdateAuthorAndThrowException() {
         Assertions.assertThrows(AuthorServiceException.class, () -> authorService.update(UUID.randomUUID(), new AuthorEntity()));
     }
 
     @Test
     @DisplayName("should delete author")
-    @Order(7)
+    @Order(8)
     void shouldDeleteAuthor() {
         Assertions.assertDoesNotThrow(() -> authorService.delete(myAuthorId01));
 

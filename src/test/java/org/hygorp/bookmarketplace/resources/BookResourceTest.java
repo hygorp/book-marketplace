@@ -6,6 +6,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.hygorp.bookmarketplace.entities.BookEntity;
 import org.hygorp.bookmarketplace.enums.Condition;
 import org.hygorp.bookmarketplace.enums.CoverType;
+import org.hygorp.bookmarketplace.enums.Language;
 import org.hygorp.bookmarketplace.repositories.BookRepository;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +53,8 @@ public class BookResourceTest {
                 "https://image.com/book-test-01.jpg",
                 10,
                 Condition.NEW,
-                CoverType.HARDCOVER
+                CoverType.HARDCOVER,
+                Language.PT_BR
         );
 
         BookEntity book02 = new BookEntity(
@@ -63,7 +65,8 @@ public class BookResourceTest {
                 "https://image.com/book-test-02.jpg",
                 10,
                 Condition.USED,
-                CoverType.SOFTCOVER
+                CoverType.SOFTCOVER,
+                Language.PT_PT
         );
 
         myBookId01 = bookRepository.save(book01).getId();
@@ -113,8 +116,6 @@ public class BookResourceTest {
 
         JsonNode body = objectMapper.readTree(response.getResponse().getContentAsString());
 
-        System.out.println(body);
-
         Assertions.assertEquals(2, body.size());
     }
 
@@ -132,7 +133,8 @@ public class BookResourceTest {
                         "https://image.com/book-test-03.jpg",
                         1,
                         Condition.USED,
-                        CoverType.HARDCOVER
+                        CoverType.HARDCOVER,
+                        Language.DE_BE
                 ))))
                 .andExpect(status().isCreated()).andReturn();
 
@@ -155,7 +157,8 @@ public class BookResourceTest {
                         "https://image.com/book-test-02.jpg",
                         4,
                         Condition.USED,
-                        CoverType.SOFTCOVER
+                        CoverType.SOFTCOVER,
+                        Language.ES_ES
                 ))))
                 .andExpect(status().isOk()).andReturn();
 

@@ -100,8 +100,6 @@ public class AuthorResourceTest {
 
             JsonNode body = objectMapper.readTree(response.getResponse().getContentAsString());
 
-            System.out.println(body);
-
             Assertions.assertEquals(1, body.size());
         });
 
@@ -112,8 +110,6 @@ public class AuthorResourceTest {
                     .andExpect(status().isOk()).andReturn();
 
             JsonNode body = objectMapper.readTree(response.getResponse().getContentAsString());
-
-            System.out.println(body);
 
             Assertions.assertEquals(1, body.size());
         });

@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.util.Set;
 import java.util.UUID;
 
 @SpringBootTest
@@ -76,8 +77,28 @@ public class GenreServiceTest {
     }
 
     @Test
-    @DisplayName("should save genre")
+    @DisplayName("should return genres by name")
     @Order(4)
+    void shouldReturnGenresByName() {
+        Assertions.assertDoesNotThrow(() -> {
+            Set<GenreEntity> genres = Assertions.assertDoesNotThrow(() -> genreService.findByName("Fiction"));
+
+            Assertions.assertNotNull(genres);
+            Assertions.assertEquals(1, genres.size());
+        });
+
+        Assertions.assertDoesNotThrow(() -> {
+            Set<GenreEntity> genres = Assertions.assertDoesNotThrow(() -> genreService.findByName("Romance"));
+
+            Assertions.assertNotNull(genres);
+            Assertions.assertEquals(1, genres.size());
+        });
+
+    }
+
+    @Test
+    @DisplayName("should save genre")
+    @Order(5)
     void shouldSaveGenre() {
         GenreEntity genre = Assertions.assertDoesNotThrow(() -> genreService.save(new GenreEntity(
                 "Genre Test 03",
@@ -90,7 +111,7 @@ public class GenreServiceTest {
 
     @Test
     @DisplayName("should update genre")
-    @Order(5)
+    @Order(6)
     void shouldUpdateGenre() {
         GenreEntity genre = Assertions.assertDoesNotThrow(() -> genreService.findById(myGenreId02));
         Assertions.assertNotNull(genre);
@@ -105,14 +126,14 @@ public class GenreServiceTest {
 
     @Test
     @DisplayName("shouldn't update genre and throws exception")
-    @Order(6)
+    @Order(7)
     void shouldNotUpdateGenreAndThrowException() {
         Assertions.assertThrows(GenreServiceException.class, () -> genreService.update(UUID.randomUUID(), new GenreEntity()));
     }
 
     @Test
     @DisplayName("should delete genre")
-    @Order(7)
+    @Order(8)
     void shouldDeleteGenre() {
         Assertions.assertDoesNotThrow(() -> genreService.delete(myGenreId01));
 

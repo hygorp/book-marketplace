@@ -3,7 +3,6 @@ package org.hygorp.bookmarketplace.resources;
 import org.hygorp.bookmarketplace.entities.AuthorEntity;
 import org.hygorp.bookmarketplace.services.AuthorService;
 import org.hygorp.bookmarketplace.services.exceptions.AuthorServiceException;
-import org.hygorp.bookmarketplace.services.exceptions.BookServiceException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -24,9 +23,9 @@ public class AuthorResource {
 
     @GetMapping("/find-all")
     public ResponseEntity<Page<AuthorEntity>> findAll(Pageable pageable) {
-        Page<AuthorEntity> authors = authorService.findAll(pageable);
+        Page<AuthorEntity> pageableAuthors = authorService.findAll(pageable);
 
-        return ResponseEntity.status(HttpStatus.OK).body(authors);
+        return ResponseEntity.status(HttpStatus.OK).body(pageableAuthors);
     }
 
     @GetMapping("/find-by-id/{id}")
@@ -62,7 +61,7 @@ public class AuthorResource {
             AuthorEntity updatedAuthor = authorService.update(id, author);
 
             return ResponseEntity.status(HttpStatus.OK).body(updatedAuthor);
-        } catch (BookServiceException exception) {
+        } catch (AuthorServiceException exception) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }

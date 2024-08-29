@@ -3,6 +3,7 @@ package org.hygorp.bookmarketplace.repositories;
 import org.hygorp.bookmarketplace.entities.BookEntity;
 import org.hygorp.bookmarketplace.enums.Condition;
 import org.hygorp.bookmarketplace.enums.CoverType;
+import org.hygorp.bookmarketplace.enums.Language;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -44,7 +45,8 @@ public class BookRepositoryTest {
                 "https://image.com/book-test-01.jpg",
                 10,
                 Condition.NEW,
-                CoverType.HARDCOVER
+                CoverType.HARDCOVER,
+                Language.EN_US
         )));
 
         Assertions.assertNotNull(book);
@@ -63,7 +65,8 @@ public class BookRepositoryTest {
                 "https://image.com/book-test-01.jpg",
                 10,
                 Condition.NEW,
-                CoverType.HARDCOVER
+                CoverType.HARDCOVER,
+                Language.EN_GB
         )));
 
         UUID myBookId = book.getId();
@@ -89,7 +92,8 @@ public class BookRepositoryTest {
                         "https://image.com/book-test-01.jpg",
                         10,
                         Condition.NEW,
-                        CoverType.HARDCOVER
+                        CoverType.HARDCOVER,
+                        Language.FR_CA
                 ),
 
                 new BookEntity(
@@ -100,7 +104,8 @@ public class BookRepositoryTest {
                         "https://image.com/book-test-02.jpg",
                         10,
                         Condition.USED,
-                        CoverType.SOFTCOVER
+                        CoverType.SOFTCOVER,
+                        Language.FR_FR
                 )
         )));
 
@@ -122,7 +127,8 @@ public class BookRepositoryTest {
                 "https://image.com/book-test-01.jpg",
                 10,
                 Condition.NEW,
-                CoverType.HARDCOVER
+                CoverType.HARDCOVER,
+                Language.AR_EG
         )));
 
         UUID myBookId = book.getId();
@@ -150,7 +156,8 @@ public class BookRepositoryTest {
                 "https://image.com/book-test-01.jpg",
                 10,
                 Condition.NEW,
-                CoverType.HARDCOVER
+                CoverType.HARDCOVER,
+                Language.AR_EG
         )));
 
         UUID myBookId = book.getId();

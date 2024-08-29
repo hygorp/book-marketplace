@@ -5,6 +5,7 @@ import org.hygorp.bookmarketplace.entities.BookEntity;
 import org.hygorp.bookmarketplace.entities.GenreEntity;
 import org.hygorp.bookmarketplace.enums.Condition;
 import org.hygorp.bookmarketplace.enums.CoverType;
+import org.hygorp.bookmarketplace.enums.Language;
 import org.hygorp.bookmarketplace.repositories.AuthorRepository;
 import org.hygorp.bookmarketplace.repositories.BookRepository;
 import org.hygorp.bookmarketplace.repositories.GenreRepository;
@@ -76,7 +77,8 @@ public class BookServiceTest {
                 "https://image.com/book-test-01.jpg",
                 10,
                 Condition.NEW,
-                CoverType.HARDCOVER
+                CoverType.HARDCOVER,
+                Language.ES_MX
         );
         book01.getAuthors().add(orwell);
         book01.getGenres().add(fiction);
@@ -89,7 +91,8 @@ public class BookServiceTest {
                 "https://image.com/book-test-02.jpg",
                 10,
                 Condition.USED,
-                CoverType.SOFTCOVER
+                CoverType.SOFTCOVER,
+                Language.ES_ES
         );
         book02.getAuthors().add(rowling);
         book02.getGenres().add(romance);
@@ -153,7 +156,8 @@ public class BookServiceTest {
                 "https://image.com/book-test-03.jpg",
                 5,
                 Condition.GOOD,
-                CoverType.HARDCOVER
+                CoverType.HARDCOVER,
+                Language.ZH_CN
         )));
 
         Assertions.assertNotNull(book);

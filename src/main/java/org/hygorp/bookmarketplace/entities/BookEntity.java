@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hygorp.bookmarketplace.enums.Condition;
 import org.hygorp.bookmarketplace.enums.CoverType;
+import org.hygorp.bookmarketplace.enums.Language;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -54,6 +55,10 @@ public class BookEntity implements Serializable {
     @Enumerated(EnumType.STRING)
     private CoverType coverType;
 
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Language language;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "tb_book_author",
@@ -72,6 +77,10 @@ public class BookEntity implements Serializable {
     @JsonIgnoreProperties(value = {"books"})
     private Set<GenreEntity> genres = new HashSet<>();
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "publisher_id")
+    private PublisherEntity publisher;
+
     public BookEntity(
             String title,
             String description,
@@ -80,7 +89,8 @@ public class BookEntity implements Serializable {
             String image,
             Integer stock,
             Condition condition,
-            CoverType coverType
+            CoverType coverType,
+            Language language
     ) {
         this.title = title;
         this.description = description;
@@ -90,5 +100,6 @@ public class BookEntity implements Serializable {
         this.stock = stock;
         this.condition = condition;
         this.coverType = coverType;
+        this.language = language;
     }
 }
