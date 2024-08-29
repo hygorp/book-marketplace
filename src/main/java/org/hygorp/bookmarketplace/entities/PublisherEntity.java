@@ -1,5 +1,6 @@
 package org.hygorp.bookmarketplace.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -31,6 +32,7 @@ public class PublisherEntity implements Serializable {
     private String logo;
 
     @OneToMany(mappedBy = "publisher", fetch = FetchType.EAGER)
+    @JsonIgnoreProperties(value = {"publisher"})
     Set<BookEntity> books = new HashSet<>();
 
     public PublisherEntity(String name, String logo) {

@@ -79,6 +79,7 @@ public class BookEntity implements Serializable {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "publisher_id")
+    @JsonIgnoreProperties(value = {"books"})
     private PublisherEntity publisher;
 
     public BookEntity(
