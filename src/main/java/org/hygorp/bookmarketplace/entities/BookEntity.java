@@ -54,7 +54,7 @@ public class BookEntity implements Serializable {
     @Enumerated(EnumType.STRING)
     private CoverType coverType;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "tb_book_author",
             joinColumns = @JoinColumn(name = "book_id"),
@@ -63,7 +63,7 @@ public class BookEntity implements Serializable {
     @JsonIgnoreProperties(value = {"books"})
     private Set<AuthorEntity> authors = new HashSet<>();
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "tb_book_genre",
             joinColumns = @JoinColumn(name = "book_id"),
@@ -72,7 +72,16 @@ public class BookEntity implements Serializable {
     @JsonIgnoreProperties(value = {"books"})
     private Set<GenreEntity> genres = new HashSet<>();
 
-    public BookEntity(String title, String description, LocalDate publishedDate, String isbn, String image, Integer stock, Condition condition, CoverType coverType) {
+    public BookEntity(
+            String title,
+            String description,
+            LocalDate publishedDate,
+            String isbn,
+            String image,
+            Integer stock,
+            Condition condition,
+            CoverType coverType
+    ) {
         this.title = title;
         this.description = description;
         this.publishedDate = publishedDate;

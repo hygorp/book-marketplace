@@ -1,5 +1,6 @@
 package org.hygorp.bookmarketplace.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -14,6 +15,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Getter
 @Setter
+@ToString
 @EqualsAndHashCode(of = "id")
 public class GenreEntity implements Serializable {
     @Serial
@@ -28,7 +30,8 @@ public class GenreEntity implements Serializable {
 
     private String image;
 
-    @ManyToMany(mappedBy = "genres")
+    @ManyToMany(mappedBy = "genres", fetch = FetchType.EAGER)
+    @JsonIgnoreProperties(value = {"genres"})
     private Set<BookEntity> books = new HashSet<>();
 
     public GenreEntity(String name, String image) {

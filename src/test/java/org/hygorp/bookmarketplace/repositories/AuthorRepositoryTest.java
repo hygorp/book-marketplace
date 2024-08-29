@@ -18,6 +18,16 @@ public class AuthorRepositoryTest {
     @Autowired
     private AuthorRepository authorRepository;
 
+    @BeforeEach
+    void beforeEach() {
+        authorRepository.deleteAll();
+    }
+
+    @AfterEach
+    void afterEach() {
+        authorRepository.deleteAll();
+    }
+
     @Test
     @DisplayName("should save author")
     @Order(1)

@@ -18,6 +18,16 @@ public class GenreRepositoryTest {
     @Autowired
     private GenreRepository genreRepository;
 
+    @BeforeEach
+    void beforeEach() {
+        genreRepository.deleteAll();
+    }
+
+    @AfterEach
+    void afterEach() {
+        genreRepository.deleteAll();
+    }
+
     @Test
     @DisplayName("should save genre")
     @Order(1)

@@ -9,7 +9,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.NoSuchElementException;
+import java.util.Set;
 import java.util.UUID;
 
 @SpringBootTest
@@ -19,6 +21,16 @@ import java.util.UUID;
 public class BookRepositoryTest {
     @Autowired
     private BookRepository bookRepository;
+
+    @BeforeEach
+    void beforeEach() {
+        bookRepository.deleteAll();
+    }
+
+    @AfterEach
+    void afterEach() {
+        bookRepository.deleteAll();
+    }
 
     @Test
     @DisplayName("should save book")
@@ -63,8 +75,44 @@ public class BookRepositoryTest {
     }
 
     @Test
-    @DisplayName("should update book")
+    @DisplayName("should find books by title")
     @Order(3)
+    void shouldFindBooksByTitle() {
+        bookRepository.deleteAll();
+
+        Assertions.assertDoesNotThrow(() -> bookRepository.saveAll(Arrays.asList(
+                new BookEntity(
+                        "Book Test 01",
+                        "Description Test 01",
+                        LocalDate.parse("1970-01-01"),
+                        "123456",
+                        "https://image.com/book-test-01.jpg",
+                        10,
+                        Condition.NEW,
+                        CoverType.HARDCOVER
+                ),
+
+                new BookEntity(
+                        "Book Test 02",
+                        "Description Test 02",
+                        LocalDate.parse("1970-01-01"),
+                        "654321",
+                        "https://image.com/book-test-02.jpg",
+                        10,
+                        Condition.USED,
+                        CoverType.SOFTCOVER
+                )
+        )));
+
+        Set<BookEntity> books = Assertions.assertDoesNotThrow(() -> bookRepository.findAllByTitleContainingIgnoreCase("Book Test"));
+
+        Assertions.assertNotNull(books);
+        Assertions.assertEquals(2, books.size());
+    }
+
+    @Test
+    @DisplayName("should update book")
+    @Order(4)
     void shouldUpdateBook() {
         BookEntity book = Assertions.assertDoesNotThrow(() -> bookRepository.save(new BookEntity(
                 "Book Test 01",
@@ -92,7 +140,7 @@ public class BookRepositoryTest {
 
     @Test
     @DisplayName("should delete book")
-    @Order(4)
+    @Order(5)
     void shouldDeleteBook() {
         BookEntity book = Assertions.assertDoesNotThrow(() -> bookRepository.save(new BookEntity(
                 "Book Test 01",
