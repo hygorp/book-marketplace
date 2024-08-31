@@ -31,16 +31,13 @@ public class PublisherServiceTest {
     void beforeEach() {
         publisherRepository.deleteAll();
 
-        PublisherEntity publisher01 = publisherRepository.save(
+       myPublisherId01 = publisherRepository.save(
                 new PublisherEntity("Publisher Test 01", "https://image.com/publisher-test-01-logo.jpg")
-        );
+        ).getId();
 
-        PublisherEntity publisher02 = publisherRepository.save(
+        myPublisherId02 = publisherRepository.save(
                 new PublisherEntity("Publisher Test 02", "https://image.com/publisher-test-02-logo.jpg")
-        );
-
-        myPublisherId01 = publisherRepository.save(publisher01).getId();
-        myPublisherId02 = publisherRepository.save(publisher02).getId();
+        ).getId();
     }
 
     @AfterEach

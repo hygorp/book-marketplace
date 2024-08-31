@@ -44,6 +44,8 @@ public class BookServiceTest {
     @BeforeEach
     void beforeEach() {
         bookRepository.deleteAll();
+        authorRepository.deleteAll();
+        genreRepository.deleteAll();
 
         GenreEntity fiction = genreRepository.save(
                 new GenreEntity("Fiction", "https://image.com/fiction.jpg")
@@ -75,6 +77,7 @@ public class BookServiceTest {
                 LocalDate.parse("1970-01-01"),
                 "123456",
                 "https://image.com/book-test-01.jpg",
+                47.85,
                 10,
                 Condition.NEW,
                 CoverType.HARDCOVER,
@@ -89,6 +92,7 @@ public class BookServiceTest {
                 LocalDate.parse("1970-01-01"),
                 "654321",
                 "https://image.com/book-test-02.jpg",
+                74.53,
                 10,
                 Condition.USED,
                 CoverType.SOFTCOVER,
@@ -104,6 +108,8 @@ public class BookServiceTest {
     @AfterEach
     void afterEach() {
         bookRepository.deleteAll();
+        authorRepository.deleteAll();
+        genreRepository.deleteAll();
     }
 
     @Test
@@ -154,6 +160,7 @@ public class BookServiceTest {
                 LocalDate.parse("1970-01-01"),
                 "456789",
                 "https://image.com/book-test-03.jpg",
+                55.21,
                 5,
                 Condition.GOOD,
                 CoverType.HARDCOVER,

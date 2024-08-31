@@ -31,24 +31,21 @@ public class AuthorServiceTest {
     void beforeEach() {
         authorRepository.deleteAll();
 
-        AuthorEntity orwell = authorRepository.save(
+        myAuthorId01 = authorRepository.save(
                 new AuthorEntity(
                         "George Orwell",
                         "Eric Arthur Blair, better known by the pseudonym George Orwell, was an English writer, journalist and political essayist, born in British India",
                         "https://image.com/george_orwell.jpg"
                 )
-        );
+        ).getId();
 
-        AuthorEntity rowling = authorRepository.save(
+        myAuthorId02 = authorRepository.save(
                 new AuthorEntity(
                         "J.K Rowling",
                         "Joanne 'Jo' Rowling, better known as J. K. Rowling, is a British writer, screenwriter and film producer, known for writing the Harry Potter book series.",
                         "https://image.com/jk_rowling.jpg"
                 )
-        );
-
-        myAuthorId01 = authorRepository.save(orwell).getId();
-        myAuthorId02 = authorRepository.save(rowling).getId();
+        ).getId();
     }
 
     @AfterEach

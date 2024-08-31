@@ -31,16 +31,13 @@ public class GenreServiceTest {
     void beforeEach() {
         genreRepository.deleteAll();
 
-        GenreEntity fiction = genreRepository.save(
+        myGenreId01 = genreRepository.save(
                 new GenreEntity("Fiction", "https://image.com/fiction.jpg")
-        );
+        ).getId();
 
-        GenreEntity romance = genreRepository.save(
+        myGenreId02 = genreRepository.save(
                 new GenreEntity("Romance", "https://image.com/romance.jpg")
-        );
-
-        myGenreId01 = genreRepository.save(fiction).getId();
-        myGenreId02 = genreRepository.save(romance).getId();
+        ).getId();
     }
 
     @AfterEach

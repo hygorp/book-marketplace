@@ -45,6 +45,9 @@ public class BookEntity implements Serializable {
     private String image;
 
     @Column(nullable = false)
+    private Double price;
+
+    @Column(nullable = false)
     private Integer stock;
 
     @Column(nullable = false)
@@ -82,12 +85,18 @@ public class BookEntity implements Serializable {
     @JsonIgnoreProperties(value = {"books"})
     private PublisherEntity publisher;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "seller_id")
+    @JsonIgnoreProperties(value = {"books"})
+    private SellerEntity seller;
+
     public BookEntity(
             String title,
             String description,
             LocalDate publishedDate,
             String isbn,
             String image,
+            Double price,
             Integer stock,
             Condition condition,
             CoverType coverType,
@@ -98,6 +107,7 @@ public class BookEntity implements Serializable {
         this.publishedDate = publishedDate;
         this.isbn = isbn;
         this.image = image;
+        this.price = price;
         this.stock = stock;
         this.condition = condition;
         this.coverType = coverType;
