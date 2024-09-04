@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.hygorp.bookmarketplace.entities.AddressEntity;
 import org.hygorp.bookmarketplace.entities.SellerEntity;
+import org.hygorp.bookmarketplace.entities.UserEntity;
 import org.hygorp.bookmarketplace.repositories.SellerRepository;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,11 @@ public class SellerResourceTest {
                         "558132373231",
                         "https://logo.com/seller-01.jpg",
                         Instant.now(),
+                        new UserEntity(
+                                "seller01",
+                                "123456",
+                                "seller"
+                        ),
                         new AddressEntity(
                                 "Rua Direita, 156",
                                 "Recife",
@@ -57,6 +63,11 @@ public class SellerResourceTest {
                         "558131315958",
                         "https://logo.com/seller-02.jpg",
                         Instant.now(),
+                        new UserEntity(
+                                "seller02",
+                                "123456",
+                                "seller"
+                        ),
                         new AddressEntity(
                                 "Rua Esquerda, 561",
                                 "Recife",
@@ -79,11 +90,13 @@ public class SellerResourceTest {
     @Order(1)
     void shouldReturnTwoSellersAndHttp200Status() throws Exception {
         MvcResult response = mockMvc.perform(get("/api/v1/sellers/find-all")
-                        .contentType(MediaType.APPLICATION_JSON))
+                .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk()).andReturn();
 
         JsonNode body = objectMapper.readTree(response.getResponse().getContentAsString());
 
         Assertions.assertEquals(2, body.get("content").size());
+
+        System.out.println(body);
     }
 }

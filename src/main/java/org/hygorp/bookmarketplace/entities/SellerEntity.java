@@ -38,6 +38,9 @@ public class SellerEntity implements Serializable {
     @Column(nullable = false)
     private Instant createdAt;
 
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private UserEntity credentials;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id")
     private AddressEntity address;
@@ -46,11 +49,12 @@ public class SellerEntity implements Serializable {
     @JsonIgnoreProperties(value = {"seller"})
     private Set<BookEntity> books = new HashSet<>();
 
-    public SellerEntity(String name, String phone, String logo, Instant createdAt, AddressEntity address) {
+    public SellerEntity(String name, String phone, String logo, Instant createdAt, UserEntity credentials, AddressEntity address) {
         this.name = name;
         this.phone = phone;
         this.logo = logo;
         this.createdAt = createdAt;
+        this.credentials = credentials;
         this.address = address;
     }
 }

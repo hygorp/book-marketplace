@@ -46,6 +46,7 @@ public class ClientRepositoryTest {
     void shouldSaveClientUserCartAndAddressInCascade() {
         ClientEntity client = new ClientEntity(
                 "Joseph First",
+                "12345678910",
                 "joseph@mail.com",
                 "559854541258",
                 new UserEntity(
@@ -90,6 +91,7 @@ public class ClientRepositoryTest {
     void ShouldFindClientById() {
         ClientEntity client = Assertions.assertDoesNotThrow(() -> clientRepository.save(new ClientEntity(
                 "Joseph First",
+                "12345678910",
                 "joseph@mail.com",
                 "559854541258",
                 new UserEntity(
@@ -113,6 +115,7 @@ public class ClientRepositoryTest {
     void shouldUpdateClientAndUserInCascade() {
         ClientEntity client = Assertions.assertDoesNotThrow(() -> clientRepository.save(new ClientEntity(
                 "Joseph First",
+                "123456789",
                 "joseph@mail.com",
                 "559854541258",
                 new UserEntity(
@@ -141,6 +144,7 @@ public class ClientRepositoryTest {
     void shouldDeleteClientUserAndAddressesInCascade() {
         ClientEntity client = new ClientEntity(
                 "Joseph First",
+                "123456789",
                 "joseph@mail.com",
                 "559854541258",
                 new UserEntity(

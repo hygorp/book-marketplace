@@ -2,6 +2,7 @@ package org.hygorp.bookmarketplace.repositories;
 
 import org.hygorp.bookmarketplace.entities.AddressEntity;
 import org.hygorp.bookmarketplace.entities.SellerEntity;
+import org.hygorp.bookmarketplace.entities.UserEntity;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,6 +24,9 @@ public class SellerRepositoryTest {
     @Autowired
     private AddressRepository addressRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @BeforeEach
     void beforeEach() {
         sellerRepository.deleteAll();
@@ -34,14 +38,19 @@ public class SellerRepositoryTest {
     }
 
     @Test
-    @DisplayName("should save seller and address in cascade")
+    @DisplayName("should save seller, address and user in cascade")
     @Order(1)
-    void shouldSaveSellerAndAddressInCascade() {
+    void shouldSaveSellerAddressAndUserInCascade() {
         SellerEntity seller = Assertions.assertDoesNotThrow(() -> sellerRepository.save(new SellerEntity(
                 "Seller Test 01",
                 "551132442526",
                 "https://image.com/publisher-01-logo.jpg",
                 Instant.now(),
+                new UserEntity(
+                        "seller01",
+                        "123456",
+                        "seller"
+                ),
                 new AddressEntity(
                         "Avenida das Acacias, 55",
                         "Sao Paulo",
@@ -54,6 +63,7 @@ public class SellerRepositoryTest {
 
         Assertions.assertNotNull(seller);
         Assertions.assertEquals("Seller Test 01", seller.getName());
+        Assertions.assertEquals("seller01", seller.getCredentials().getUsername());
         Assertions.assertEquals("Avenida das Acacias, 55", seller.getAddress().getAddressLine());
     }
 
@@ -66,6 +76,11 @@ public class SellerRepositoryTest {
                 "551132442526",
                 "https://image.com/publisher-01-logo.jpg",
                 Instant.now(),
+                new UserEntity(
+                        "seller01",
+                        "123456",
+                        "seller"
+                ),
                 new AddressEntity(
                         "Avenida das Acacias, 55",
                         "Sao Paulo",
@@ -81,6 +96,7 @@ public class SellerRepositoryTest {
         SellerEntity savedSeller = Assertions.assertDoesNotThrow(() -> sellerRepository.findById(mySellerId).orElseThrow());
 
         Assertions.assertEquals(seller.getName(), savedSeller.getName());
+        Assertions.assertEquals(seller.getCredentials().getUsername(), savedSeller.getCredentials().getUsername());
         Assertions.assertEquals(seller.getAddress().getCity(), savedSeller.getAddress().getCity());
     }
 
@@ -93,6 +109,11 @@ public class SellerRepositoryTest {
                 "551132442526",
                 "https://image.com/publisher-01-logo.jpg",
                 Instant.now(),
+                new UserEntity(
+                        "seller01",
+                        "123456",
+                        "seller"
+                ),
                 new AddressEntity(
                         "Avenida das Acacias, 56",
                         "Sao Paulo",
@@ -106,13 +127,16 @@ public class SellerRepositoryTest {
         UUID mySellerId = seller.getId();
 
         SellerEntity savedSeller = Assertions.assertDoesNotThrow(() -> sellerRepository.findById(mySellerId).orElseThrow());
+
         savedSeller.setName("Seller Test 01 (edited)");
+        savedSeller.getCredentials().setUsername("seller011");
         savedSeller.getAddress().setAddressLine("Avenida das Acacias, 156");
 
         SellerEntity updatedSeller = Assertions.assertDoesNotThrow(() -> sellerRepository.save(savedSeller));
 
         Assertions.assertEquals(mySellerId, updatedSeller.getId());
         Assertions.assertEquals("Seller Test 01 (edited)", updatedSeller.getName());
+        Assertions.assertEquals("seller011", updatedSeller.getCredentials().getUsername());
         Assertions.assertEquals("Avenida das Acacias, 156", updatedSeller.getAddress().getAddressLine());
     }
 
@@ -125,6 +149,11 @@ public class SellerRepositoryTest {
                 "551132442526",
                 "https://image.com/publisher-01-logo.jpg",
                 Instant.now(),
+                new UserEntity(
+                        "seller01",
+                        "123456",
+                        "seller"
+                ),
                 new AddressEntity(
                         "Avenida das Acacias, 56",
                         "Sao Paulo",
@@ -136,11 +165,13 @@ public class SellerRepositoryTest {
         )));
 
         UUID mySellerId = seller.getId();
+        UUID sellerUserId = seller.getCredentials().getId();
         UUID sellerAddressId = seller.getAddress().getId();
 
         sellerRepository.deleteById(mySellerId);
 
         Assertions.assertThrows(NoSuchElementException.class, () -> sellerRepository.findById(mySellerId).orElseThrow());
+        Assertions.assertThrows(NoSuchElementException.class, () -> userRepository.findById(sellerUserId).orElseThrow());
         Assertions.assertThrows(NoSuchElementException.class, () -> addressRepository.findById(sellerAddressId).orElseThrow());
     }
 }

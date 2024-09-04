@@ -2,6 +2,7 @@ package org.hygorp.bookmarketplace.services;
 
 import org.hygorp.bookmarketplace.entities.AddressEntity;
 import org.hygorp.bookmarketplace.entities.SellerEntity;
+import org.hygorp.bookmarketplace.entities.UserEntity;
 import org.hygorp.bookmarketplace.records.Seller;
 import org.hygorp.bookmarketplace.repositories.SellerRepository;
 import org.hygorp.bookmarketplace.services.exceptions.SellerServiceException;
@@ -40,6 +41,11 @@ public class SellerServiceTest {
                         "551132442526",
                         "https://image.com/seller-01-logo.jpg",
                         Instant.now(),
+                        new UserEntity(
+                                "seller01",
+                                "123456",
+                                "seller"
+                        ),
                         new AddressEntity(
                                 "Avenida das Acacias, 55",
                                 "Sao Paulo",
@@ -57,6 +63,11 @@ public class SellerServiceTest {
                         "554145782521",
                         "https://image.com/seller-02-logo.jpg",
                         Instant.now(),
+                        new UserEntity(
+                                "seller02",
+                                "123456",
+                                "seller"
+                        ),
                         new AddressEntity(
                                 "Avenida das Araucarias, 226",
                                 "Curitiba",
@@ -85,14 +96,15 @@ public class SellerServiceTest {
     }
 
     @Test
-    @DisplayName("should return seller by id and cascade address")
+    @DisplayName("should return seller by id and cascade address and user")
     @Order(2)
-    void shouldReturnSellerByIdAndCascadeAddress() {
+    void shouldReturnSellerByIdAndCascadeAddressAndUser() {
         SellerEntity seller = Assertions.assertDoesNotThrow(() -> sellerService.findById(mySellerId01));
 
         Assertions.assertNotNull(seller);
         Assertions.assertEquals(mySellerId01, seller.getId());
         Assertions.assertEquals("Seller Test 01", seller.getName());
+        Assertions.assertEquals("seller01", seller.getCredentials().getUsername());
         Assertions.assertEquals("Avenida das Acacias, 55", seller.getAddress().getAddressLine());
     }
 
@@ -114,14 +126,19 @@ public class SellerServiceTest {
     }
 
     @Test
-    @DisplayName("should save seller and address in cascade")
+    @DisplayName("should save seller, address and user in cascade")
     @Order(5)
-    void shouldSaveSellerAndAddressInCascade() {
+    void shouldSaveSellerAddressAndUserInCascade() {
         SellerEntity seller = Assertions.assertDoesNotThrow(() -> sellerService.save(new SellerEntity(
                 "Seller Test 03",
                 "558733566121",
                 "https://image.com/seller-03-logo.jpg",
                 Instant.now(),
+                new UserEntity(
+                        "seller03",
+                        "123456",
+                        "seller"
+                ),
                 new AddressEntity(
                         "Avenida das Uvas, 900",
                         "Petrolina",
@@ -134,23 +151,26 @@ public class SellerServiceTest {
 
         Assertions.assertNotNull(seller);
         Assertions.assertEquals("Seller Test 03", seller.getName());
+        Assertions.assertEquals("seller03", seller.getCredentials().getUsername());
         Assertions.assertEquals("Avenida das Uvas, 900", seller.getAddress().getAddressLine());
     }
 
     @Test
-    @DisplayName("should update seller and address in cascade")
+    @DisplayName("should update seller, address and user in cascade")
     @Order(6)
     void shouldUpdateSellerAndAddressInCascade() {
         SellerEntity seller = Assertions.assertDoesNotThrow(() -> sellerService.findById(mySellerId02));
         Assertions.assertNotNull(seller);
 
         seller.setName("Seller Test 02 - (Edited)");
+        seller.getCredentials().setUsername("seller002");
         seller.getAddress().setAddressLine("Avenida das Araucarias, 1000");
 
         SellerEntity updatedSeller = Assertions.assertDoesNotThrow(() -> sellerService.update(mySellerId02, seller));
 
         Assertions.assertNotNull(updatedSeller);
         Assertions.assertEquals("Seller Test 02 - (Edited)", updatedSeller.getName());
+        Assertions.assertEquals("seller002", updatedSeller.getCredentials().getUsername());
         Assertions.assertEquals("Avenida das Araucarias, 1000", updatedSeller.getAddress().getAddressLine());
     }
 

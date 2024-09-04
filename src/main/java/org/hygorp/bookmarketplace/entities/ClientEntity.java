@@ -27,20 +27,23 @@ public class ClientEntity implements Serializable {
     @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false, unique = true)
+    private String cpf;
+
     @Column(nullable = false)
     private String email;
 
     @Column(nullable = false)
     private String phone;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private UserEntity credentials;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "cart_id")
     private CartEntity cart;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "tb_client_address",
             joinColumns = @JoinColumn(name = "client_id"),
@@ -48,8 +51,9 @@ public class ClientEntity implements Serializable {
     )
     private Set<AddressEntity> addresses = new HashSet<>();
 
-    public ClientEntity(String name, String email, String phone, UserEntity credentials) {
+    public ClientEntity(String name, String cpf, String email, String phone, UserEntity credentials) {
         this.name = name;
+        this.cpf = cpf;
         this.email = email;
         this.phone = phone;
         this.credentials = credentials;

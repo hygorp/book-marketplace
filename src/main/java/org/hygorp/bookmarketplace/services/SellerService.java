@@ -64,36 +64,48 @@ public class SellerService {
         try {
             SellerEntity savedSeller = sellerRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Seller not found"));
 
-            if (!savedSeller.getName().equals(seller.getName())) {
+            if (!Objects.equals(savedSeller.getName(), seller.getName())) {
                 savedSeller.setName(seller.getName());
             }
 
-            if (!savedSeller.getPhone().equals(seller.getPhone())) {
+            if (!Objects.equals(savedSeller.getPhone(), seller.getPhone())) {
                 savedSeller.setPhone(seller.getPhone());
             }
 
-            if (!savedSeller.getLogo().equals(seller.getLogo())) {
+            if (!Objects.equals(savedSeller.getLogo(), seller.getLogo())) {
                 savedSeller.setLogo(seller.getLogo());
             }
 
-            if (!savedSeller.getAddress().getAddressLine().equals(seller.getAddress().getAddressLine())) {
+            if (!Objects.equals(savedSeller.getCredentials().getUsername(), seller.getCredentials().getUsername())) {
+                savedSeller.getCredentials().setUsername(seller.getCredentials().getUsername());
+            }
+
+            if (!Objects.equals(savedSeller.getCredentials().getPassword(), seller.getCredentials().getPassword())) {
+                savedSeller.getCredentials().setPassword(seller.getCredentials().getPassword());
+            }
+
+            if (!Objects.equals(savedSeller.getCredentials().getRole(), seller.getCredentials().getRole())) {
+                savedSeller.getCredentials().setRole(seller.getCredentials().getRole());
+            }
+
+            if (!Objects.equals(savedSeller.getAddress().getAddressLine(), seller.getAddress().getAddressLine())) {
                 savedSeller.getAddress().setAddressLine(seller.getAddress().getAddressLine());
             }
 
-            if (!savedSeller.getAddress().getCity().equals(seller.getAddress().getCity())) {
+            if (!Objects.equals(savedSeller.getAddress().getCity(), seller.getAddress().getCity())) {
                 savedSeller.getAddress().setCity(seller.getAddress().getCity());
             }
 
-            if (!savedSeller.getAddress().getState().equals(seller.getAddress().getState())) {
+            if (!Objects.equals(savedSeller.getAddress().getState(), seller.getAddress().getState())) {
                 savedSeller.getAddress().setState(seller.getAddress().getState());
             }
 
-            if (!savedSeller.getAddress().getCountry().equals(seller.getAddress().getCountry())) {
+            if (!Objects.equals(savedSeller.getAddress().getCountry(), seller.getAddress().getCountry())) {
                 savedSeller.getAddress().setCountry(seller.getAddress().getCountry());
             }
 
             if (seller.getAddress().getComplement() != null) {
-                if (!savedSeller.getAddress().getComplement().equals(seller.getAddress().getComplement())) {
+                if (!Objects.equals(savedSeller.getAddress().getComplement(), seller.getAddress().getComplement())) {
                     savedSeller.getAddress().setComplement(seller.getAddress().getComplement());
                 }
             }
